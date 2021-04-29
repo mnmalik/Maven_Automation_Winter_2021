@@ -11,8 +11,6 @@ import org.openqa.selenium.support.PageFactory;
 public class Express_Home extends Abstract_Class {
 
    //declare a local logger so you can use it in your page class
-
-   //declare a local logger so you can use it in your page class
    ExtentTest logger;
    public Express_Home(WebDriver driver){
       PageFactory.initElements(driver, this);

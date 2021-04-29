@@ -11,6 +11,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -92,6 +95,21 @@ public class Reusable_Actions_PageObject {
          System.out.println("Unable to click on element " + elementName + " " + e);
       }
    }//end of click method
+
+   public static void verifyTitle(WebDriver driver,String Title, ExtentTest logger, String elementName){
+      String actualTitle = driver.getTitle();
+      try {
+         if (actualTitle.equals(Title)) {
+            logger.log(LogStatus.PASS,"Successfully matched the " + elementName);
+         } else {
+            logger.log(LogStatus.FAIL,"Unable to match the " + elementName);
+         }
+      } catch (Exception e) {
+         logger.log(LogStatus.FAIL,"Unable to get " + elementName + " " + e);
+         getScreenShot(driver,elementName,logger);
+      } // end of verification
+
+   }
 
    //method to click on any webelement by explicit wait
    public static void closePopupIfExist(WebDriver driver,String xpathLocator, String elementName){
@@ -187,6 +205,22 @@ public class Reusable_Actions_PageObject {
       }
    }//end of getScreenshot method
 
-
+   public static void uploadFile1(String fileLocation) throws InterruptedException, AWTException {
+      try {
+         //Setting clipboard with file location
+         StringSelection stringSelection = new StringSelection(fileLocation);
+         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+         //native key strokes for CTRL, V and ENTER keys
+         Robot robot = new Robot();
+         robot.keyPress(KeyEvent.VK_CONTROL);
+         robot.keyPress(KeyEvent.VK_V);
+         robot.keyRelease(KeyEvent.VK_V);
+         robot.keyRelease(KeyEvent.VK_CONTROL);
+         robot.keyPress(KeyEvent.VK_ENTER);
+         robot.keyRelease(KeyEvent.VK_ENTER);
+      } catch (Exception exp) {
+         exp.printStackTrace();
+      }
+   }
 
 }//end of class
